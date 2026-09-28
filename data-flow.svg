@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 540" font-family="'Segoe UI','Microsoft YaHei',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+    <marker id="arrRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <rect width="680" height="540" fill="#f8fafc"/>
+  <text x="340" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#1e293b">「每日日记」数据流：数据从哪来，到哪去</text>
+
+  <!-- 浏览器外框 -->
+  <rect x="24" y="58" width="440" height="424" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+  <text x="44" y="86" font-size="14" font-weight="600" fill="#475569">浏览器（你的设备）</text>
+
+  <!-- 页面 UI -->
+  <rect x="44" y="102" width="400" height="128" rx="10" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="60" y="128" font-size="13" font-weight="700" fill="#3730a3">页面 UI</text>
+  <text x="60" y="150" font-size="12" fill="#475569">引导语 + 输入框 + 保存按钮</text>
+  <text x="60" y="170" font-size="12" fill="#475569">日记列表（新 → 旧）· 详情视图 · 收藏标记</text>
+  <text x="60" y="198" font-size="11" fill="#64748b">数据从哪来：只来自你此刻敲下的那一句话</text>
+
+  <!-- JavaScript -->
+  <rect x="64" y="300" width="170" height="130" rx="10" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="80" y="326" font-size="13" font-weight="700" fill="#065f46">JavaScript（页面脚本）</text>
+  <text x="80" y="350" font-size="11" fill="#334155">① 校验输入 → 组装条目</text>
+  <text x="80" y="372" font-size="11" fill="#334155">② 读 / 写本地存储</text>
+  <text x="80" y="394" font-size="11" fill="#334155">③ 把数据渲染回页面</text>
+
+  <!-- localStorage -->
+  <rect x="286" y="300" width="158" height="130" rx="10" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="302" y="326" font-size="13" font-weight="700" fill="#9a3412">localStorage</text>
+  <text x="302" y="350" font-size="11" fill="#334155">键：diary.entries</text>
+  <text x="302" y="370" font-size="11" fill="#334155">值：日记数组（JSON）</text>
+  <text x="302" y="392" font-size="11" fill="#64748b">关闭浏览器也保留</text>
+  <text x="302" y="410" font-size="11" fill="#64748b">上限约 5MB，足够用几年</text>
+
+  <!-- 箭头：UI ⇄ JS -->
+  <line x1="130" y1="230" x2="130" y2="300" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="60" y="252" font-size="11" fill="#475569">保存 / 点条目</text>
+  <line x1="230" y1="300" x2="230" y2="230" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="238" y="252" font-size="11" fill="#475569">渲染列表</text>
+
+  <!-- 箭头：JS ⇄ localStorage（双向） -->
+  <line x1="234" y1="352" x2="286" y2="352" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="286" y1="382" x2="234" y2="382" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="238" y="344" font-size="11" fill="#475569">写入</text>
+  <text x="240" y="400" font-size="11" fill="#475569">读取</text>
+
+  <!-- 服务器（不上传） -->
+  <rect x="512" y="150" width="148" height="96" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="528" y="186" font-size="13" font-weight="600" fill="#475569">远程服务器 / 数据库</text>
+  <text x="528" y="210" font-size="11" fill="#94a3b8">（本期不存在）</text>
+  <line x1="464" y1="198" x2="512" y2="198" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrRed)"/>
+  <text x="474" y="188" font-size="14" font-weight="700" fill="#dc2626">✕</text>
+  <text x="500" y="264" text-anchor="middle" font-size="11" fill="#dc2626">不上传任何数据（隐私默认）</text>
+
+  <!-- 底部结论 -->
+  <rect x="24" y="500" width="636" height="0" fill="none"/>
+  <text x="340" y="512" text-anchor="middle" font-size="13" font-weight="600" fill="#1e293b">到哪去：所有数据只进入这台设备浏览器的 localStorage，全程不出浏览器，无账号、无上传。</text>
+</svg>
