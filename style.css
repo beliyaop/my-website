@@ -1,0 +1,291 @@
+/* ============================================================
+   style.css · 「每日日记」样式表
+   只负责「长什么样」：颜色、间距、排版。
+   行为（点击、保存）在 app.js 里，本文件不含任何逻辑。
+   对应 PRD §5：手机单列不横滚、桌面正文窄栏 ≤720px。
+   ============================================================ */
+
+/* ---------- 1. 全局变量：颜色和尺寸只在这里定义一次 ---------- */
+:root {
+  --color-bg:        #f7f6f3;   /* 页面底色：淡淡的纸色 */
+  --color-surface:   #ffffff;   /* 卡片底色 */
+  --color-text:      #2b2f36;   /* 正文文字 */
+  --color-muted:     #6b7280;   /* 次要文字（日期、说明） */
+  --color-border:    #e5e2dc;
+  --color-accent:    #6b5b45;   /* 主按钮：偏暖的褐 */
+  --color-star:      #d99a2b;   /* 收藏星标 */
+  --color-warn-bg:   #fef3c7;
+  --color-warn-text: #92400e;
+
+  --radius:      14px;          /* 卡片圆角 */
+  --max-width:   720px;         /* 桌面端正文最大宽度（PRD 要求） */
+}
+
+/* ---------- 2. 基础重置 ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;       /* 宽度包含内边距和边框，算尺寸不会失控 */
+}
+
+/* 关键：保证 hidden 属性一定生效。
+   浏览器自带的默认样式里 hidden 就等于 display:none，但只要你给同一个元素
+   写了任何 display 值（比如 .entry { display:flex }），就会把它顶掉。
+   加一条 !important 兜底，免得出现「视图藏不住」这种难查的问题。 */
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Microsoft YaHei", "PingFang SC", system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ---------- 3. 页面容器：手机上单列铺满，桌面上居中窄栏 ---------- */
+.app {
+  max-width: var(--max-width);
+  margin: 0 auto;               /* 居中 */
+  padding: 28px 16px 56px;
+}
+
+/* ---------- 4. 顶部标题 ---------- */
+.app-header {
+  margin-bottom: 20px;
+}
+
+.app-title {
+  margin: 0 0 4px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.app-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+/* ---------- 5. 今天的输入区 ---------- */
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.composer-label {
+  font-weight: 600;
+}
+
+.composer-input {
+  width: 100%;                  /* 配合 box-sizing，永不超出容器 */
+  padding: 10px 12px;
+  font: inherit;
+  color: inherit;
+  background: #fcfbf9;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  resize: vertical;             /* 只允许上下拉高，不允许左右拉宽 */
+}
+
+.composer-input:focus {
+  outline: 2px solid #ece7de;
+  border-color: var(--color-accent);
+}
+
+/* ---------- 6. 按钮 ---------- */
+.btn {
+  padding: 8px 18px;
+  font: inherit;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  appearance: none;
+}
+
+.btn-primary {
+  align-self: flex-end;          /* 保存按钮靠右 */
+  background: var(--color-accent);
+  color: #ffffff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #5c4e3b;
+}
+
+/* 输入为空时保存按钮置灰（PRD F1 边界要求） */
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-muted);
+}
+
+.btn-ghost:hover {
+  color: var(--color-text);
+  border-color: #cfcac1;
+}
+
+/* 所有可点元素被键盘选中时给个明确外框 */
+.btn:focus-visible,
+.entry-open:focus-visible,
+.entry-fav:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- 7. 隐私说明与警告 ---------- */
+.privacy-note {
+  margin: 12px 0 24px;
+  font-size: 13px;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.warning {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--color-warn-text);
+  background: var(--color-warn-bg);
+  border-radius: 10px;
+}
+
+/* ---------- 8. 历史列表 ---------- */
+.section-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-muted);
+  letter-spacing: 0.05em;
+}
+
+.empty-state {
+  margin: 24px 0;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.entry-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;             /* 去掉列表前面的圆点 */
+}
+
+/* 一条日记：左边是可点开的主体，右边是收藏星标 */
+.entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 2px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.entry-open {
+  flex: 1;
+  min-width: 0;                 /* 关键：让这一栏可以被压缩，长文本才不会撑破整行 */
+  display: block;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.entry-open:hover .entry-text {
+  color: var(--color-accent);
+}
+
+.entry-date {
+  display: block;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+/* 正文预览：最多两行，超出打省略号（PRD F2） */
+.entry-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;      /* 超长且不带空格的字符串也强制换行，防横滚 */
+  word-break: break-word;
+}
+
+.entry-fav {
+  flex: none;
+  padding: 2px 6px;
+  font-size: 20px;
+  line-height: 1;
+  color: #c9c6c0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* 已收藏：星标变金色（PRD F4 的「可见标记」） */
+.entry-fav.is-fav {
+  color: var(--color-star);
+}
+
+/* ---------- 9. 详情视图 ---------- */
+#back-btn {
+  margin-bottom: 16px;
+}
+
+.detail {
+  padding: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.detail-date {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.detail-text {
+  margin: 0 0 20px;
+  overflow-wrap: anywhere;      /* 长文也能正常换行 */
+  word-break: break-word;
+  white-space: pre-wrap;        /* 保留用户敲的换行，但自动折行 */
+}
+
+/* 详情里的收藏按钮，已收藏时变金色 */
+#detail-fav-btn.is-fav {
+  color: var(--color-star);
+  border-color: var(--color-star);
+}
+
+/* ---------- 10. 小屏微调（375px 手机） ---------- */
+@media (max-width: 420px) {
+  .app {
+    padding: 20px 12px 44px;
+  }
+
+  .app-title {
+    font-size: 21px;
+  }
+
+  .composer,
+  .detail {
+    padding: 14px;
+  }
+}

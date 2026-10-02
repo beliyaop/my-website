@@ -3,45 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>我的网站 · 施工中</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "Microsoft YaHei", system-ui, sans-serif;
-      background: #f5f6f8;
-      color: #2b2f36;
-    }
-    .card {
-      text-align: center;
-      padding: 48px 40px;
-      background: #ffffff;
-      border: 1px solid #e3e6ea;
-      border-radius: 16px;
-      max-width: 520px;
-    }
-    .badge {
-      display: inline-block;
-      margin-bottom: 16px;
-      padding: 4px 12px;
-      font-size: 13px;
-      color: #92400e;
-      background: #fef3c7;
-      border-radius: 999px;
-    }
-    h1 { margin: 0 0 12px; font-size: 28px; }
-    p { margin: 6px 0; color: #6b7280; line-height: 1.7; }
-  </style>
+  <title>每日日记</title>
+  <!-- 样式表：步骤 2 创建 -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="card">
-    <span class="badge">Day 2 · 占位页</span>
-    <h1>我的网站</h1>
-    <p>这是第一个上传到 GitHub 的文件。</p>
-    <p>真正的功能版（MVP）将在 Day 7 上线，敬请期待。</p>
-  </main>
+
+  <div class="app">
+
+    <!-- ========== 视图一：列表视图（默认显示） ========== -->
+    <section id="view-list" class="view">
+
+      <header class="app-header">
+        <h1 class="app-title">每日日记</h1>
+        <p class="app-subtitle">每天写一句，就算记录成功。</p>
+      </header>
+
+      <!-- 今天：输入区（引导语 + 输入框 + 保存按钮） -->
+      <form id="entry-form" class="composer" autocomplete="off">
+        <label id="composer-label" class="composer-label" for="entry-input">
+          今天有什么小事值得记下来？
+        </label>
+        <textarea
+          id="entry-input"
+          class="composer-input"
+          rows="3"
+          placeholder="一句话也行……"></textarea>
+        <button id="save-btn" class="btn btn-primary" type="submit">保存</button>
+      </form>
+
+      <!-- 隐私说明（PRD 要求：页面始终可见） -->
+      <p class="privacy-note">日记只保存在此浏览器，不会上传。</p>
+
+      <!-- 存储不可用时的警告（正常情况隐藏，由 app.js 决定是否显示） -->
+      <p id="storage-warning" class="warning" hidden>
+        当前浏览器无法保存日记（可能是隐私模式或禁用了本地存储）。
+      </p>
+
+      <!-- 历史日记列表 -->
+      <section class="entries">
+        <h2 class="section-title">以前的日记</h2>
+
+        <!-- 空状态：一条日记都没有时显示 -->
+        <p id="empty-state" class="empty-state" hidden>写下第一句吧</p>
+
+        <!-- 列表容器：条目由 app.js 按下面的模板生成 -->
+        <ul id="entry-list" class="entry-list"></ul>
+      </section>
+
+    </section>
+
+    <!-- ========== 视图二：详情视图（默认隐藏） ========== -->
+    <section id="view-detail" class="view" hidden>
+
+      <button id="back-btn" class="btn btn-ghost" type="button">← 返回列表</button>
+
+      <article class="detail">
+        <p id="detail-date" class="detail-date"></p>
+        <p id="detail-text" class="detail-text"></p>
+        <button id="detail-fav-btn" class="btn btn-ghost" type="button">☆ 收藏</button>
+      </article>
+
+    </section>
+
+  </div>
+
+  <!-- ========== 一条日记在列表里的样子（模板，不直接显示） ========== -->
+  <template id="entry-template">
+    <li class="entry">
+      <button class="entry-open" type="button">
+        <span class="entry-date"></span>
+        <span class="entry-text"></span>
+      </button>
+      <button class="entry-fav" type="button" aria-label="收藏">☆</button>
+    </li>
+  </template>
+
+  <!-- 逻辑：步骤 3 创建 -->
+  <script src="app.js"></script>
 </body>
 </html>
